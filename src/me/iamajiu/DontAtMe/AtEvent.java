@@ -47,9 +47,7 @@ public class AtEvent implements Listener {
 		}
 		for (Entry<String, String> p : valid_players.entrySet()) {
 			message = final_msg.replaceAll(p.getKey(), p.getValue()); 
-			Bukkit.getLogger().info(message);
 		}
-		Bukkit.getLogger().info(message);
 		event.setMessage(message);
 		makeNoise(player_list, sender); 	
 	}
@@ -69,7 +67,7 @@ public class AtEvent implements Listener {
 	}
 	
 	public void makeNoise(HashMap<String, Integer> player_list, Player sender) {
-		if (player_list == null || player_list.entrySet() == null) {
+		if (player_list == null || player_list.entrySet() == null || player_list.size() == 0) {
 			return; 
 		}
 		for (Entry<String, Integer> pair : player_list.entrySet()) {
