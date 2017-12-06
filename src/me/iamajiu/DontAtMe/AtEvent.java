@@ -36,16 +36,21 @@ public class AtEvent implements Listener {
 		for (Entry<String, Integer> pair : player_list.entrySet()) {
 			if (pair.getValue() == 1) {
 				String temp_old = "@" + pair.getKey(); 
-				String temp_new = "&a" + temp_old + ChatColor.WHITE; 
+				String temp_new = ChatColor.GREEN + temp_old + ChatColor.WHITE; 
 				valid_players.put(temp_old, temp_new);
 			}
 		}
 		String final_msg = event.getMessage(); 
 		String message = new String(); 
+		if (valid_players.size() == 0) {
+			return; 
+		}
 		for (Entry<String, String> p : valid_players.entrySet()) {
 			message = final_msg.replaceAll(p.getKey(), p.getValue()); 
+			Bukkit.getLogger().info(message);
 		}
-		event.setMessage(ChatColor.translateAlternateColorCodes('&', message));
+		Bukkit.getLogger().info(message);
+		event.setMessage(message);
 		makeNoise(player_list, sender); 	
 	}
 	
@@ -54,7 +59,7 @@ public class AtEvent implements Listener {
 		for (int i = 0; i < player_list.size(); ++i) {
 			String player_name = player_list.get(i); 
 			if (Bukkit.getPlayer(player_name) == null || !Bukkit.getPlayer(player_name).isOnline() || !Bukkit.getPlayer(player_name).hasPlayedBefore()) {
-				players.put(player_name, 0); 
+				continue; 
 			}
 			else {
 				players.put(player_name, 1); 
@@ -64,6 +69,9 @@ public class AtEvent implements Listener {
 	}
 	
 	public void makeNoise(HashMap<String, Integer> player_list, Player sender) {
+		if (player_list == null || player_list.entrySet() == null) {
+			return; 
+		}
 		for (Entry<String, Integer> pair : player_list.entrySet()) {
 			if (pair.getValue() == 0) {
 				sender.sendMessage(ChatColor.RED + "Player " + pair.getKey() + " is not currently online or has not played on the server before!");
